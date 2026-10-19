@@ -1,2 +1,2 @@
 # SoulsArchive
-Repositório voltado para a programção do CMS do site SoulsArchive
+Repositório voltado para a programação do CMS do site SoulsArchive
