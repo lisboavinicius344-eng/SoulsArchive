@@ -33,11 +33,34 @@ Em total conformidade com as diretrizes acadêmicas de desenvolvimento limpo, o 
 
 ## 📂 Arquitetura e Estrutura de Páginas
 
-O mapa de navegação do site foi planejado de forma linear e otimizada, dividindo-se nas seguintes seções:
-
 ```text
-├── index.html          # Home: Portal de entrada imersivo e objetivos do site
-├── lore.html           # Lore: Detalhes sobre as Almas dos Lordes e a Primeira Chama
-├── bosses.html         # Bosses: Enciclopédia de chefes (Ornstein & Smough, Artorias, Manus)
-├── builds.html         # Builds: Guias táticos de progressão e atributos do jogador
-└── mapas.html          # Mapas: Análise da geografia vertical e interconectada de Lordran
+├── index.php, bosses.php, builds.php    # Páginas públicas alimentadas pelo banco
+├── lore.html, maps.html, contatos.html  # Páginas públicas estáticas
+├── index.html, bosses.html, builds.html # Redirecionam para as versões .php
+├── login.php, logout.php                # Entrada e saída do painel
+├── admin/                               # Painel: início, bosses/, builds/ e usuarios/ (com exclusão de contas)
+├── config/database.php                  # Conexão PDO centralizada (conectarBanco)
+├── includes/                            # auth.php, funcoes.php e layouts
+├── database/                            # soulsarchive.sql e criar_admin.php
+├── css/                                 # style.css e admin.css
+└── js/admin.js                          # Confirmação de exclusão
+```
+
+---
+
+## 🚀 Como Executar (XAMPP)
+
+Requisitos: PHP 8.1 ou superior, com as extensões `pdo_mysql` e `mbstring`, e MySQL ou MariaDB.
+
+1. Copie a pasta do projeto para `C:\xampp\htdocs\SoulsArchive` e inicie o Apache e o MySQL.
+2. Importe `database/soulsarchive.sql` pelo phpMyAdmin. O arquivo cria o banco `soulsarchive` com o conteúdo inicial.
+3. Crie o primeiro administrador pelo terminal:
+   ```text
+   cd C:\xampp\htdocs\SoulsArchive
+   C:\xampp\php\php.exe database\criar_admin.php
+   ```
+4. Acesse `http://localhost/SoulsArchive/` e entre no painel pelo link **Painel**.
+
+A conexão usa por padrão `127.0.0.1:3306`, usuário `root` e senha vazia. Em outro ambiente, defina as variáveis `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER` e `DB_PASS`.
+
+As imagens de chefes e builds são enviadas pelo próprio formulário do painel (JPG, PNG, WEBP ou GIF, até 5 MB) e ficam em `img/uploads/`. O formulário também aceita uma URL `http(s)` ou um caminho dentro de `img/`.

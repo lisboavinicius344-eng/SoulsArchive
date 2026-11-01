@@ -234,6 +234,56 @@ a {
   width: 100%;
 }
 
+.nav-links {
+  align-items: center;
+}
+
+.nav-links a.nav-painel {
+  padding: 9px 20px;
+
+  border-radius: 999px;
+
+  background: linear-gradient(180deg, #f0ca52, #d4af37);
+
+  color: #111;
+
+  font-weight: 700;
+
+  animation: brilho-painel 2.6s ease-in-out infinite;
+}
+
+.nav-links a.nav-painel::after {
+  display: none;
+}
+
+.nav-links a.nav-painel:hover {
+  color: #111;
+
+  transform: translateY(-2px);
+}
+
+@keyframes brilho-painel {
+
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(212,175,55,0.35);
+  }
+
+  50% {
+    box-shadow: 0 0 22px rgba(240,202,82,0.75);
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .nav-links a.nav-painel {
+    animation: none;
+
+    box-shadow: 0 0 14px rgba(212,175,55,0.5);
+  }
+
+}
+
 /* =========================================
    MAIN LAYOUT
 ========================================= */
@@ -559,6 +609,138 @@ a {
 
 textarea {
   resize: vertical;
+}
+
+/* =========================================
+   PESQUISA E PAGINAÇÃO
+========================================= */
+
+.form-busca {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.form-busca label {
+  color: #d4af37;
+
+  font-weight: 600;
+}
+
+.form-busca input,
+.form-busca select,
+.form-group select {
+  background-color: #101010;
+
+  border: 1px solid #2a2a2a;
+  border-radius: 10px;
+
+  padding: 12px 15px;
+
+  color: #e4e4e4;
+
+  font-size: 1rem;
+
+  outline: none;
+
+  transition: 0.3s;
+}
+
+.form-group select {
+  padding: 15px;
+}
+
+.form-busca input[type="search"] {
+  flex: 1;
+
+  min-width: 200px;
+}
+
+.form-busca input:focus,
+.form-busca select:focus,
+.form-group select:focus {
+  border-color: #d4af37;
+
+  box-shadow: 0 0 10px rgba(212,175,55,0.15);
+}
+
+button.btn-primary,
+button.btn-secondary {
+  border: none;
+
+  font: inherit;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+button.btn-secondary {
+  background-color: transparent;
+
+  border: 1px solid #d4af37;
+}
+
+/* Mantém os resultados visíveis abaixo do menu fixo. */
+#resultados {
+  scroll-margin-top: 110px;
+}
+
+.paginacao {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.paginacao a,
+.paginacao span {
+  padding: 8px 14px;
+
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+
+  color: #d7d7d7;
+
+  transition: 0.3s;
+}
+
+.paginacao a:hover {
+  border-color: #d4af37;
+
+  color: #d4af37;
+}
+
+.paginacao .atual {
+  background-color: #d4af37;
+
+  border-color: #d4af37;
+
+  color: #111;
+
+  font-weight: 600;
+}
+
+.boss-card > a {
+  display: block;
+
+  height: 100%;
+}
+
+.etiqueta {
+  display: inline-block;
+
+  margin-top: 16px;
+
+  padding: 8px 14px;
+
+  border-radius: 6px;
+
+  background-color: rgba(212,175,55,0.12);
+
+  color: #d4af37;
+
+  font-size: 0.9rem;
 }
 
 /* =========================================
