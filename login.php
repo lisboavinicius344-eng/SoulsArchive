@@ -69,7 +69,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
 
     <?php exibirErros($erro === '' ? [] : [$erro]); ?>
 
-    <form method="post" class="contact-form">
+    <form method="post" action="login.php" class="contact-form">
 
       <?= campoCsrf() ?>
 
