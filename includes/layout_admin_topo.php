@@ -13,6 +13,9 @@ $itensConteudo = [
     ['inicio', 'Início', 'painel', 'admin/index.php'],
     ['bosses', 'Chefes', 'chefes', 'admin/bosses/index.php'],
     ['builds', 'Builds', 'builds', 'admin/builds/index.php'],
+    ['lore_topicos', 'Tópicos de Lore', 'pasta', 'admin/lore_topicos/index.php'],
+    ['lore_artigos', 'Artigos de Lore', 'livro', 'admin/lore_artigos/index.php'],
+    ['regioes', 'Regiões', 'mapa', 'admin/regioes/index.php'],
 ];
 
 ?>

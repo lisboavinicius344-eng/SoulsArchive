@@ -682,7 +682,8 @@ button.btn-secondary {
 }
 
 /* Mantém os resultados visíveis abaixo do menu fixo. */
-#resultados {
+#resultados,
+.section-area[id] {
   scroll-margin-top: 110px;
 }
 

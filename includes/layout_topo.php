@@ -43,7 +43,7 @@
 
           <a href="<?= e(url('bosses.php')) ?>" class="btn-primary">Explorar Bosses</a>
 
-          <a href="<?= e(url('lore.html')) ?>" class="btn-secondary">Ver Lore</a>
+          <a href="<?= e(url('lore.php')) ?>" class="btn-secondary">Ver Lore</a>
 
         </div>
       <?php endif; ?>
@@ -65,9 +65,9 @@
 
         <li><a href="<?= e(url('index.php')) ?>">Home</a></li>
         <li><a href="<?= e(url('bosses.php')) ?>">Bosses</a></li>
-        <li><a href="<?= e(url('lore.html')) ?>">Lore</a></li>
+        <li><a href="<?= e(url('lore.php')) ?>">Lore</a></li>
         <li><a href="<?= e(url('builds.php')) ?>">Builds</a></li>
-        <li><a href="<?= e(url('maps.html')) ?>">Mapas</a></li>
+        <li><a href="<?= e(url('maps.php')) ?>">Mapas</a></li>
         <li><a href="<?= e(url('contatos.html')) ?>">Contato</a></li>
         <li><a href="<?= e(url('admin/index.php')) ?>" class="nav-painel">Painel</a></li>
 

@@ -34,11 +34,11 @@ Em total conformidade com as diretrizes acadêmicas de desenvolvimento limpo, o 
 ## 📂 Arquitetura e Estrutura de Páginas
 
 ```text
-├── index.php, bosses.php, builds.php    # Páginas públicas alimentadas pelo banco
-├── lore.html, maps.html, contatos.html  # Páginas públicas estáticas
-├── index.html, bosses.html, builds.html # Redirecionam para as versões .php
+├── index.php, bosses.php, builds.php, lore.php, maps.php # Páginas públicas alimentadas pelo banco
+├── contatos.html                        # Página pública estática
+├── index.html, bosses.html, builds.html, lore.html, maps.html # Redirecionam para as versões .php
 ├── login.php, logout.php                # Entrada e saída do painel
-├── admin/                               # Painel: início, bosses/, builds/ e usuarios/ (com exclusão de contas)
+├── admin/                               # Painel: início, bosses/, builds/, lore_topicos/, lore_artigos/, regioes/ e usuarios/
 ├── config/database.php                  # Conexão PDO centralizada (conectarBanco)
 ├── includes/                            # auth.php, funcoes.php e layouts
 ├── database/                            # soulsarchive.sql e criar_admin.php

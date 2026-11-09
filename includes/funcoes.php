@@ -59,6 +59,9 @@ function icone(string $nome): string
         'excluir' => '<polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>',
         'busca' => '<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',
         'estrela' => '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+        'livro' => '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+        'mapa' => '<polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/>',
+        'pasta' => '<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>',
         'chama' => '<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
     ];
 
@@ -236,13 +239,33 @@ function removerImagemEnviada(PDO $pdo, ?string $imagem): void
     }
 
     $consulta = $pdo->prepare(
-        'SELECT (SELECT COUNT(*) FROM bosses WHERE imagem = ?) + (SELECT COUNT(*) FROM builds WHERE imagem = ?)'
+        'SELECT (SELECT COUNT(*) FROM bosses WHERE imagem = ?)
+            + (SELECT COUNT(*) FROM builds WHERE imagem = ?)
+            + (SELECT COUNT(*) FROM lore_artigos WHERE imagem = ?)
+            + (SELECT COUNT(*) FROM regioes WHERE imagem = ?)'
     );
-    $consulta->execute([$imagem, $imagem]);
+    $consulta->execute([$imagem, $imagem, $imagem, $imagem]);
 
     if ((int) $consulta->fetchColumn() === 0) {
         @unlink(dirname(__DIR__) . '/' . $imagem);
     }
+}
+
+// Campo vazio equivale a zero; números menores aparecem primeiro nas listagens.
+function validarOrdem(string $ordem, array &$erros): int
+{
+    if ($ordem === '') {
+        return 0;
+    }
+
+    $valor = filter_var($ordem, FILTER_VALIDATE_INT, ['options' => ['min_range' => 0, 'max_range' => 9999]]);
+
+    if ($valor === false) {
+        $erros[] = 'A ordem de exibição deve ser um número inteiro de 0 a 9999.';
+        return 0;
+    }
+
+    return $valor;
 }
 
 function validarUsuario(string $nome, string $nomeUsuario, string $email, ?string $senha): array

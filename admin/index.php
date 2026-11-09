@@ -12,12 +12,16 @@ $totalBuilds = (int) $pdo->query('SELECT COUNT(*) FROM builds')->fetchColumn();
 $indicadores = [
     ['Chefes', (int) $pdo->query('SELECT COUNT(*) FROM bosses')->fetchColumn(), 'Registros publicados', 'chefes', 'admin/bosses/index.php'],
     ['Builds', $totalBuilds, 'Registros publicados', 'builds', 'admin/builds/index.php'],
+    ['Artigos de Lore', (int) $pdo->query('SELECT COUNT(*) FROM lore_artigos')->fetchColumn(), 'Textos publicados', 'livro', 'admin/lore_artigos/index.php'],
+    ['Regiões', (int) $pdo->query('SELECT COUNT(*) FROM regioes')->fetchColumn(), 'Áreas do mapa', 'mapa', 'admin/regioes/index.php'],
     ['Destaques', (int) $pdo->query('SELECT COUNT(*) FROM bosses WHERE destaque = 1')->fetchColumn(), 'Chefes em destaque', 'estrela', 'admin/bosses/index.php'],
 ];
 
 $atalhos = [
     ['Cadastrar chefe', 'Adicione um novo chefe à galeria', 'chefes', 'admin/bosses/formulario.php'],
     ['Cadastrar build', 'Publique uma nova configuração', 'builds', 'admin/builds/formulario.php'],
+    ['Cadastrar artigo', 'Escreva um novo texto de lore', 'livro', 'admin/lore_artigos/formulario.php'],
+    ['Cadastrar região', 'Adicione uma área do mapa', 'mapa', 'admin/regioes/formulario.php'],
 ];
 
 if ($ehAdministrador) {
@@ -37,9 +41,15 @@ $recentes = $pdo->query(
     "SELECT 'bosses' AS modulo, id, nome, atualizado_em FROM bosses
      UNION ALL
      SELECT 'builds' AS modulo, id, nome, atualizado_em FROM builds
+     UNION ALL
+     SELECT 'lore_artigos' AS modulo, id, titulo, atualizado_em FROM lore_artigos
+     UNION ALL
+     SELECT 'regioes' AS modulo, id, nome, atualizado_em FROM regioes
      ORDER BY atualizado_em DESC, id DESC
      LIMIT 6"
 )->fetchAll();
+
+$rotulosRecentes = ['bosses' => 'Chefe', 'builds' => 'Build', 'lore_artigos' => 'Lore', 'regioes' => 'Região'];
 
 $tituloPagina = 'Início';
 $secaoAtiva = 'inicio';
@@ -140,7 +150,7 @@ require __DIR__ . '/../includes/layout_admin_topo.php';
                   <li>
                     <a href="<?= e(url('admin/' . $recente['modulo'] . '/formulario.php?id=' . (int) $recente['id'])) ?>">
                       <span class="selo <?= $recente['modulo'] === 'bosses' ? 'selo-ouro' : 'selo-neutro' ?>">
-                        <?= $recente['modulo'] === 'bosses' ? 'Chefe' : 'Build' ?>
+                        <?= e($rotulosRecentes[$recente['modulo']]) ?>
                       </span>
                       <strong><?= e($recente['nome']) ?></strong>
                       <time datetime="<?= e(date('c', strtotime($recente['atualizado_em']))) ?>">

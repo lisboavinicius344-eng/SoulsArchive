@@ -1,6 +1,5 @@
 <?php
 
-// Cria uma conta de administrador pelo terminal: php database/criar_admin.php
 
 if (PHP_SAPI !== 'cli') {
     http_response_code(404);

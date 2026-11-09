@@ -61,6 +61,49 @@ CREATE TABLE IF NOT EXISTS bosses (
   KEY idx_bosses_destaque (destaque)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS lore_topicos (
+  id            INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  titulo        VARCHAR(150) NOT NULL,
+  ordem         SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+  criado_em     TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  atualizado_em TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_lore_topicos_ordem (ordem)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS lore_artigos (
+  id            INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  topico_id     INT UNSIGNED NOT NULL,
+  titulo        VARCHAR(150) NOT NULL,
+  conteudo      TEXT         NOT NULL,
+  imagem        VARCHAR(255) NULL,
+  ordem         SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+  criado_por    INT UNSIGNED NULL,
+  criado_em     TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  atualizado_em TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_lore_artigos_topico (topico_id, ordem),
+  CONSTRAINT fk_lore_artigos_topico FOREIGN KEY (topico_id) REFERENCES lore_topicos (id)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT,
+  CONSTRAINT fk_lore_artigos_criado_por FOREIGN KEY (criado_por) REFERENCES usuarios (id)
+    ON UPDATE CASCADE
+    ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS regioes (
+  id            INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  nome          VARCHAR(150) NOT NULL,
+  titulo        VARCHAR(150) NOT NULL,
+  descricao     TEXT         NOT NULL,
+  imagem        VARCHAR(255) NULL,
+  ordem         SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+  criado_em     TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  atualizado_em TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_regioes_ordem (ordem)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- Conteúdo migrado das páginas estáticas. Os ids explícitos com INSERT IGNORE
 -- permitem reimportar o arquivo sem duplicar nem sobrescrever registros.
 
@@ -78,3 +121,26 @@ INSERT IGNORE INTO builds (id, nome, slug, tipo, descricao, armas, imagem) VALUE
   (3, 'Faith Build', 'faith-build', 'Fé', 'Milagres, buffs sagrados e regeneração.', 'Sunlight Spear, Wrath of the Gods, Great Heal e Lightning Blade.', 'img/build_faith.jpg'),
   (4, 'Sorcery Build', 'sorcery-build', 'Feitiçaria', 'Alto dano mágico e combate à distância.', 'Crystal Soul Spear, Homing Soulmass, Dark Bead e White Dragon Breath.', 'img/build_sorcery.jpg'),
   (5, 'Quality Build', 'quality-build', 'Qualidade', 'Equilíbrio entre força e destreza, permitindo grande variedade de armas.', 'Claymore, Halberd, Longsword e Black Knight Sword.', 'img/build_quality.jpg');
+
+INSERT IGNORE INTO lore_topicos (id, titulo, ordem) VALUES
+  (1, 'A Primeira Chama', 10),
+  (2, 'Os Lord Souls', 20),
+  (3, 'Gwyn e a Era do Fogo', 30),
+  (4, 'A Era do Fogo', 40),
+  (5, 'A Era das Trevas', 50);
+
+INSERT IGNORE INTO lore_artigos (id, topico_id, titulo, conteudo, imagem, ordem) VALUES
+  (1, 1, 'O Início do Mundo', 'Antes da chama, o mundo era cinzento, envolto em névoa e dominado pelos dragões ancestrais. A aparição da Primeira Chama trouxe disparidade: calor e frio, luz e escuridão, vida e morte.', 'img/backgrounds/1_czj6po7niXBz_wHynkD5cQ.png', 10),
+  (2, 2, 'Gwyn', 'Senhor da Luz Solar e governante de Anor Londo.', 'img/boss-gwyn.jpg', 10),
+  (3, 2, 'Nito', 'O primeiro dos mortos e senhor da morte.', 'img/boss-nito.jpg', 20),
+  (4, 2, 'Witch of Izalith', 'Criadora do Caos e mãe dos demônios.', 'img/boss-witch-of-izalith.jpg', 30),
+  (5, 3, 'O Sacrifício', 'Temendo o avanço da escuridão, Gwyn sacrificou sua própria alma para alimentar a Primeira Chama, prolongando artificialmente a Era do Fogo.', 'img/gwyn.jpg', 10),
+  (6, 4, 'O Ciclo', 'A chama representa ordem, poder e domínio dos deuses. Porém, toda chama eventualmente enfraquece, iniciando o inevitável ciclo de decadência.', 'img/plus ultra/lore/firelink-lore.jpg', 10),
+  (7, 5, 'A Humanidade', 'Muitos acreditam que a Era das Trevas representa o verdadeiro tempo da humanidade, livre da influência dos deuses e da chama.', 'img/plus ultra/lore/firelink-night.jpg', 10);
+
+INSERT IGNORE INTO regioes (id, nome, titulo, descricao, imagem, ordem) VALUES
+  (1, 'Anor Londo', 'A Cidade dos Deuses', 'Antiga capital de Gwyn, Anor Londo é uma das regiões mais icônicas de Dark Souls, marcada por arquitetura colossal, cavaleiros prateados e a batalha contra Ornstein & Smough.', 'img/anor_londo.jpg', 10),
+  (2, 'Firelink Shrine', 'Centro de Lordran', 'Firelink Shrine funciona como principal ponto de descanso, conectando diversas regiões importantes do jogo.', 'img/firelink.jpg', 20),
+  (3, 'Blighttown', 'O Pesadelo Tóxico', 'Conhecida por sua dificuldade, estruturas precárias e veneno constante, Blighttown se tornou uma das áreas mais memoráveis da franquia.', 'img/blightown.jpeg', 30),
+  (4, 'New Londo Ruins', 'A Cidade Afogada', 'Tomada pelos Darkwraiths e pelos fantasmas, New Londo representa a corrupção causada pelo Abismo.', 'img/new_londo.jpg', 40),
+  (5, 'Lost Izalith', 'O Berço do Caos', 'Após a tentativa fracassada da Witch of Izalith de recriar a Primeira Chama, a cidade foi consumida pelo Caos e pelos demônios.', 'img/lost.jpg', 50);

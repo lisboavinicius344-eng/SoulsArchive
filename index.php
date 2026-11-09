@@ -38,7 +38,7 @@ require __DIR__ . '/includes/layout_topo.php';
           </li>
 
           <li>
-            <a href="lore.html">
+            <a href="lore.php">
               Lore
             </a>
           </li>
@@ -50,7 +50,7 @@ require __DIR__ . '/includes/layout_topo.php';
           </li>
 
           <li>
-            <a href="maps.html">
+            <a href="maps.php">
               Mapas
             </a>
           </li>
